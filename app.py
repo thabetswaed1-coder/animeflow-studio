@@ -18,12 +18,18 @@ if st.button("صناعة السيناريو"):
     else:
         try:
             genai.configure(api_key=api_key)
-            # تم تصحيح اسم النموذج هنا ليعمل مباشرة مع الـ API المستقر
-            model = genai.GenerativeModel('gemini-1.5-flash')
             
             with st.spinner('المخرج Gemini يكتب السيناريو...'):
-                prompt = f"أنت مخرج أنمي محترف. اكتب سيناريو مشهد أنمي مفصل ومشوق للشخصيتين Zedko و Shru بناءً على الفكرة التالية: {idea}. ركز على أسلوب وإثارة Dragon Ball Super، واجعل الأحداث حماسية ومليئة بالطاقة المذهلة."
-                response = model.generate_content(prompt)
+                # تجربة استدعاء النموذج بالاسم الصافي المستقر
+                try:
+                    model = genai.GenerativeModel('gemini-1.5-flash')
+                    prompt = f"أنت مخرج أنمي محترف. اكتب سيناريو مشهد أنمي مفصل ومشوق للشخصيتين Zedko و Shru بناءً على الفكرة التالية: {idea}. ركز على أسلوب وإثارة Dragon Ball Super، واجعل الأحداث حماسية ومليئة بالطاقة المذهلة."
+                    response = model.generate_content(prompt)
+                except Exception:
+                    # آلية احتياطية في حال رفض السيرفر الاسم الأول
+                    model = genai.GenerativeModel('models/gemini-1.5-flash')
+                    prompt = f"أنت مخرج أنمي محترف. اكتب سيناريو مشهد أنمي مفصل ومشوق للشخصيتين Zedko و Shru بناءً على الفكرة التالية: {idea}. ركز على أسلوب وإثارة Dragon Ball Super، واجعل الأحداث حماسية ومليئة بالطاقة المذهلة."
+                    response = model.generate_content(prompt)
                 
                 st.success("تم الانتهاء بنجاح!")
                 st.write("### 🎬 السيناريو الملحمي الناتج:")
