@@ -18,7 +18,8 @@ if st.button("صناعة السيناريو"):
     else:
         try:
             genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            # تم تعديل السطر التالي ليعمل مباشرة بدون خطأ 404
+            model = genai.GenerativeModel('models/gemini-1.5-flash')
             
             with st.spinner('المخرج Gemini يكتب السيناريو...'):
                 prompt = f"أنت مخرج أنمي. اكتب سيناريو مفصل للشخصيتين Zedko و Shru بناءً على: {idea}. ركز على أسلوب Dragon Ball Super."
@@ -30,6 +31,6 @@ if st.button("صناعة السيناريو"):
         except Exception as e:
             st.error(f"حدث خطأ: {e}")
 
-# تعليمات للمستخدم
+# text formatting fixation
 st.sidebar.markdown("---")
 st.sidebar.info("للحصول على المفتاح: [Google AI Studio](https://aistudio.google.com/)")
